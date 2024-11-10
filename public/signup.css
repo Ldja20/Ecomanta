@@ -1,0 +1,104 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #00649B;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background: linear-gradient(135deg, #31d2d8, #15ac98);;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+    width: 600px;
+    max-width: 100%;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+h1 {
+    font-weight: bold;
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 5px;
+}
+
+label {
+    font-weight: bolder;
+    color:  #ffffff;
+    display: block;
+    margin-bottom: 5px;
+    
+}
+
+.input-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Espaçamento entre os campos */
+}
+
+.input-group div {
+    flex: 1; /* Garante que cada campo ocupe o mesmo espaço */
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Flexbox para alinhar os selects */
+.select-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Espaço entre os grupos */
+    margin-bottom: 5px;
+}
+
+.select-group div {
+    flex: 1;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #0a65db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #FF5733;
+}
+
+p {
+    color: white;
+    margin-top: 15px;
+}
+
+a {
+    color: #0a65db;
+    font-weight: bolder; 
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

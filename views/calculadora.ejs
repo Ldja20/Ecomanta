@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Área (m²) e Mantas</title>
+        <style>
+    body {
+        font-family: 'Helvetica Neue', sans-serif;
+        background-color: #e6e6e6;
+        color: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .container {
+        background-color: #333;
+        padding: 30px;
+        border-radius: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        width: 100%;
+        margin: 20px auto;
+        color: white;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: #fff;
+    }
+
+    label {
+        font-weight: normal;
+        color: #aaa;
+        font-size: 16px;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    input[type="number"] {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 20px;
+        border: none;
+        border-radius: 10px;
+        background-color: #505050;
+        color: white;
+        font-size: 18px;
+        outline: none;
+        box-sizing: border-box;
+    }
+
+    button {
+        width: 100%;
+        background-color: #ff9500;
+        color: white;
+        padding: 15px;
+        font-size: 22px;
+        font-weight: bold;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    button:hover {
+        background-color: #e68900;
+    }
+
+    #resultado {
+        background-color: #1c1c1c;
+        padding: 20px;
+        border-radius: 20px;
+        margin-top: 20px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        color: #fff;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 22px;
+        }
+
+        input[type="number"], button {
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px;
+        }
+
+        #resultado {
+            font-size: 20px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        body {
+            padding: 10px;
+        }
+
+        h1 {
+            font-size: 20px;
+        }
+
+        input[type="number"], button {
+            font-size: 14px;
+        }
+
+        button {
+            padding: 10px;
+        }
+
+        #resultado {
+            font-size: 18px;
+        }
+    }
+</style>
+    <script>
+        function calcularArea() {
+            // Obter valores dos campos de entrada
+            const largura = parseFloat(document.getElementById("largura").value);
+            const comprimento = parseFloat(document.getElementById("comprimento").value);
+            
+            // Verificar se os valores são números válidos
+            if (isNaN(largura) || isNaN(comprimento)) {
+                alert("Por favor, insira números válidos.");
+                return;
+            }
+
+            // Calcular a área
+            const area = largura * comprimento;
+
+            // Calcular a quantidade de mantas necessárias
+            const mantasNecessarias = Math.ceil(area); // Arredonda para cima
+
+            // Exibir o resultado na página
+            document.getElementById("resultado").textContent = 
+                `Área total: ${area.toFixed(2)} m²\nMantas necessárias: ${mantasNecessarias}`
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de Área e Mantas (m²)</h1>
+        
+        <form onsubmit="">
+            <label for="largura">Largura (em metros): </label>
+            <input type="number" id="largura" step="0.01" required>
+            
+            <label for="comprimento">Comprimento (em metros): </label>
+            <input type="number" id="comprimento" step="0.01" required>
+            
+            <button type="button" onclick="calcularArea()">Calcular</button>
+        </form>
+
+        <p id="resultado"></p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Usuário - Agregador de Vagas de Hotel</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            height: 100vh;
+        }
+        .profile-container {
+            margin-top: 50px;
+        }
+        .profile-box {
+            background-color: #007bff;
+            padding: 30px;
+            border-radius: 8px;
+            color: white;
+            text-align: center;
+        }
+        .profile-box img {
+            border-radius: 50%;
+            background-color: #ffffff;
+            padding: 5px;
+            width: 100px;
+            height: 100px;
+        }
+        .profile-box h3 {
+            margin-top: 15px;
+        }
+        .profile-box p {
+            font-size: 1.2rem;
+            margin-top: -10px;
+        }
+        .options-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .option-button {
+            padding: 15px;
+            font-size: 1rem;
+            width: 23%; /* Ajusta o tamanho dos botões */
+            margin: 5px;
+        }
+        .option-button i {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        footer {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        /* Cabeçalho */
+        nav {
+            background-color: #007bff;
+        }
+        nav a {
+            color: white;
+            font-weight: bold;
+            margin-left: 15px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            color: #f8f9fa;
+        }
+        nav .navbar-brand {
+            color: white;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cabeçalho -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">Hotel Vagas</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Sobre Nós</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contato</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Perfil Container -->
+    <div class="container profile-container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="profile-box">
+                    <img src="https://via.placeholder.com/100" alt="Foto do Usuário">
+                    <h3><%= nome %> <%= sobrenome %></h3>
+                </div>
+                <form action="/logout?_method=delete" method="post">
+                    <div class="options-box mt-4 text-center">
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-primary option-button">
+                                <i class="fas fa-qrcode"></i><br>Botão 1
+                            </button>
+                            <button class="btn btn-primary option-button">
+                                <i class="fas fa-calendar-alt"></i><br>Botão 2
+                            </button>
+                            <button class="btn btn-primary option-button">
+                                <i class="fas fa-file-alt"></i><br>Botão 3
+                            </button>
+                            <button type="submit" class="btn btn-danger option-button">
+                                <i class="fas fa-sign-out-alt"></i><br>Sair
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Agregador de Vagas de Hotel. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Scripts Bootstrap e Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medir Telhado</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://maps.googleapis.com/maps/api/js?key=Sua_CHAVE_API&libraries=places"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0a65db;
+        }
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+        #buttons {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        button {
+            margin: 0 5px;
+
+        }
+        #output {
+            background-color:#919191;
+            padding: 15px;
+            border-radius: 8px;
+            color: #000000;
+            width: 350px;
+            margin: 20px auto;
+        }
+        h1 {
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+        }
+        p {
+            color: #ffffff;
+            font-weight: bolder;
+        }
+
+        .img-esquerda{
+            width: 190px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Medir Telhado</h1>
+    <div id="map"></div>
+    <div id="buttons">
+        <button type="button" class="btn btn-info" onclick="marcarLargura()">Marcar Largura</button>
+        <button type="button" class="btn btn-info" onclick="marcarComprimento()">Marcar Comprimento</button>
+        <button type="button" class="btn btn-warning" onclick="calcularArea()">Calcular Área</button>
+        <button type="button" class="btn btn-danger" onclick="limparTudo()">Limpar</button>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- Figura da caixa de leite esquerda -->
+            <div class="col-3 text-center">
+                <img src="assets/1 .png" alt="Caixa de leite" class="img-fluid img-esquerda">
+            </div>
+            <!-- Output central -->
+            <div class="col-6">
+                <div id="output">
+                    <p>Largura: <span id="largura"></span> metros</p>
+                    <p>Comprimento: <span id="comprimento"></span> metros</p>
+                    <p>Área: <span id="area"></span> metros quadrados</p>
+                    <p>Mantas necessárias: <span id="mantas"></span></p>
+                    <p>Caixas de leite necessárias: <span id="caixas"></span></p>
+                </div>
+            </div>
+            <!-- Figura da caixa de leite direita -->
+            <div class="col-3 text-center">
+                <img src="assets/2.png" alt="Caixa de leite" class="img-fluid">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let map;
+        let largura = 0;
+        let comprimento = 0;
+        let larguraMarcada = false;
+        let comprimentoMarcado = false;
+        let polylines = [];
+        let drawing = false;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: -1.455833, lng: -48.503889 },
+                zoom: 15,
+            });
+
+            map.addListener('click', function(event) {
+                if (drawing) {
+                    addMarker(event.latLng);
+                }
+            });
+        }
+
+        function addMarker(location) {
+            const marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+
+            if (polylines.length === 1) {
+                const line = new google.maps.Polyline({
+                    path: [polylines[0].getPosition(), marker.getPosition()],
+                    map: map,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 1.0,
+                    strokeWeight: 2
+                });
+
+                polylines.push(marker);
+
+                if (larguraMarcada) {
+                    comprimento = google.maps.geometry.spherical.computeDistanceBetween(polylines[0].getPosition(), polylines[1].getPosition());
+                    document.getElementById('comprimento').innerText = comprimento.toFixed(2);
+                    comprimentoMarcado = true;
+                } else {
+                    largura = google.maps.geometry.spherical.computeDistanceBetween(polylines[0].getPosition(), polylines[1].getPosition());
+                    document.getElementById('largura').innerText = largura.toFixed(2);
+                    larguraMarcada = true;
+                }
+
+                drawing = false;
+            } else {
+                polylines.push(marker);
+            }
+        }
+
+        function marcarLargura() {
+            limparLinhas();
+            drawing = true;
+            larguraMarcada = false;
+        }
+
+        function marcarComprimento() {
+            limparLinhas();
+            drawing = true;
+            comprimentoMarcado = false;
+        }
+
+        function calcularArea() {
+            if (larguraMarcada && comprimentoMarcado) {
+                const area = largura * comprimento;
+                document.getElementById('area').innerText = area.toFixed(2);
+
+                // Cálculo de mantas e caixas de leite
+                const mantas = Math.ceil(area);
+                const caixas = mantas * 16;
+
+                document.getElementById('mantas').innerText = mantas;
+                document.getElementById('caixas').innerText = caixas;
+            } else {
+                alert("Por favor, marque a largura e o comprimento primeiro.");
+            }
+        }
+
+        function limparLinhas() {
+            polylines.forEach(marker => marker.setMap(null));
+            polylines = [];
+        }
+
+        function limparTudo() {
+            limparLinhas();
+            document.getElementById('largura').innerText = '';
+            document.getElementById('comprimento').innerText = '';
+            document.getElementById('area').innerText = '';
+            document.getElementById('mantas').innerText = '';
+            document.getElementById('caixas').innerText = '';
+            larguraMarcada = false;
+            comprimentoMarcado = false;
+            largura = 0;
+            comprimento = 0;
+        }
+
+        window.onload = initMap;
+    </script>
+</body>
+</html>
