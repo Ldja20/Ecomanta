@@ -22,6 +22,7 @@ initializePassport(
         const user = await db.getUserById(id);
         return user[0];
     }
+    
 );
 
 // Set and use
@@ -51,15 +52,29 @@ app.get('/signup', checkNotAuthenticated, (req, res) => {
 });
 //rota pagina de usuario, com informações do bd
 app.get('/user', checkAuthenticated, (req, res) => {
+    //renderiz a pagain de usuarios passando os dados nescessarios como argumentos
     res.render('usuario',
         {
             nome: req.user.nome,
             sobrenome: req.user.sobrenome,
         });
 });
+//rota para as areas salvas
+app.get('/area', checkAuthenticated, async (req, res) => {
+    const id = req.user.id; 
+    const data = await db.getAreaByUserId(id); 
+    res.render('area_salva', 
+        { 
+            nome: req.user.nome, 
+            sobrenome: req.user.sobrenome, 
+            data, 
+            usuario_id: id
+        }
+    )
+})
 //rota quem somos
-app.get('/quem-somos',(request, response) => {
-    response.render('quem-somos');
+app.get('/quem-somos',(req, res) => {
+    res.render('quem-somos');
 })
 //rota doar
 app.get('/doar',(request, response) => {
@@ -76,24 +91,16 @@ app.get('/street-maps',(request, response) => {
 app.get('/calculadora',(request, response) => {
     response.render('calculadora');
 })
-app.get('/usuarios/:id', async (req, res) => {
-    const usuarios = await db.selectUser(req.params.id);
-    res.json(usuarios);
-});
-
-app.get('/usuarios', async (req, res) => {
-    const usuarios = await db.selectUsers();
-    res.json(usuarios);
-});
 // fim rotas get --------------------------------------------
 
 // rotas post --------------------------------------------------
+// rota para fazer login, não deixa usuarios logads acessar essa função
 app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
-    successRedirect: '/user',
-    failureRedirect: '/login',
+    successRedirect: '/user', // em caso de sucesso manda o usuario para a pagina de usuario
+    failureRedirect: '/login',// em caso de falha redireciona para login
     failureFlash: true
 }));
-
+// rota para mandar os dados do cadastro para o bd não deixa usuarios logads acessar essa função
 app.post('/signup', checkNotAuthenticated, async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.senha, 10);
@@ -109,6 +116,24 @@ app.post('/signup', checkNotAuthenticated, async (req, res) => {
         res.redirect('/signup');
     }
 });
+
+app.post('/salvar-medida', checkAuthenticated, async (req,res) => {
+    try{
+        const data = {
+            largura:req.body.largura,
+            comprimento: req.body.comprimento,
+            area:req.body.area,
+            mantas:req.body.mantas,
+            nome_local: req.body.local,
+            caixas: req.body.caixas,
+            usuario_id: req.user.id
+        }
+        await db.insertArea(data)
+        res.redirect('/area')
+    }catch{
+        res.redirect('/caculadora')
+    }
+})
 // fim rotas post ---------------------------------------
 
 //faz logout do usuario
@@ -121,14 +146,14 @@ app.delete('/logout', (req, res, next) => {
     res.redirect('/login')
 })
 
-//verifica se o usuario esta autenticado para evitar entrar na pagina de usuario
-function checkAuthenticated(req, res, next ){
+//verifica se o usuario esta autenticado 
+function checkAuthenticated(req, res, next){
     if (req.isAuthenticated()){
         return next()
     }
     res.redirect('/login')
 }
-// verifica se não esta autenticado para não voltar a tela de login ou registro
+// verifica se não esta autenticado
 function checkNotAuthenticated(req, res, next) {
     if (req.isAuthenticated()){
         return res.redirect('/user')

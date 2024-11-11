@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Área (m²) e Mantas</title>
-        <style>
+    <title>Calculadora de Área</title>
+    <style>
     body {
         font-family: 'Helvetica Neue', sans-serif;
         background-color: #e6e6e6;
@@ -43,7 +43,7 @@
         margin-bottom: 10px;
     }
 
-    input[type="number"] {
+    input[type="number"], input[type="text"] {
         width: 100%;
         padding: 15px;
         margin-bottom: 20px;
@@ -127,7 +127,7 @@
             font-size: 18px;
         }
     }
-</style>
+    </style>
     <script>
         function calcularArea() {
             // Obter valores dos campos de entrada
@@ -145,28 +145,42 @@
 
             // Calcular a quantidade de mantas necessárias
             const mantasNecessarias = Math.ceil(area); // Arredonda para cima
+            const caixas = mantasNecessarias * 16
 
             // Exibir o resultado na página
-            document.getElementById("resultado").textContent = 
-                `Área total: ${area.toFixed(2)} m²\nMantas necessárias: ${mantasNecessarias}`
+            document.getElementById('area').value=area.toFixed(2)
+            document.getElementById('mantas').value=mantasNecessarias
+            document.getElementById('caixas').value=caixas
         }
     </script>
 </head>
 <body>
     <div class="container">
-        <h1>Calculadora de Área e Mantas (m²)</h1>
-        
-        <form onsubmit="">
+        <h1>Calculadora de Área e Mantas</h1>
+
+        <form action="/salvar-medida" method="post" autocomplete="off">
             <label for="largura">Largura (em metros): </label>
-            <input type="number" id="largura" step="0.01" required>
+            <input type="number" id="largura" name="largura" step="0.01" required>
             
             <label for="comprimento">Comprimento (em metros): </label>
-            <input type="number" id="comprimento" step="0.01" required>
-            
-            <button type="button" onclick="calcularArea()">Calcular</button>
-        </form>
+            <input type="number" id="comprimento" name="comprimento" step="0.01" required>
 
-        <p id="resultado"></p>
+            <button type="button" onclick="calcularArea()">Calcular</button>
+
+            <label for="area">area total (m2): </label>
+            <input type="number" id="area" name="area" step="0.01" required>
+
+            <label for="mantas">Mantas necessárias: </label>
+            <input type="number" id="mantas" name="mantas" step="0.01" required>
+
+            <label for="caixas">Caixas necessárias: </label>
+            <input type="number" id="caixas" name="caixas" step="0.01" required>
+
+            <label for="local"> Nome do local: </label>
+            <input type="text" id="local" name="local" step="0.01" required>
+
+            <button type="submit">Salvar</button>
+        </form>
     </div>
 </body>
 </html>

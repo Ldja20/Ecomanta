@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos Gerais */
+body {
+    background-color: #0a65db;
+    color: #ffffff;
+    font-family: 'Lato', sans-serif; /* Usar a fonte Lato */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center; /* Centraliza o texto no body */
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700; /* Usar peso 700 para o título */
+    margin: 20px 0; /* Margem para espaçamento */
+}
+
+p {
+    font-size: 1.125rem; /* Aumentar o tamanho da fonte do parágrafo */
+    line-height: 1.5; /* Melhorar o espaçamento entre linhas */
+    margin: 20px 0; /* Margem para espaçamento */
+}
+
+/* Estilos do Cabeçalho */
+#header {
+    background-color: #1d4a8c;
+    padding: 15px 0;
+    width: 100%; /* Garante que o header ocupe toda a largura */
+}
+
+#logo img {
+    width: 150px; /* Ajuste conforme necessário */
+}
+
+/* Estilos do Menu de Navegação */
+nav {
+    margin: 20px 0; /* Margem para espaçamento */
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 400; /* Usar peso 400 para o menu */
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos da Lista de Itens Salvos */
+#savedItems {
+    background-color: #919191;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px auto; /* Centraliza e adiciona margem */
+}
+
+.list-group-item {
+    background-color: #919191;
+    border: none;
+    color: #000000;
+}
+
+/* Botão Limpar Dados */
+.btn-clear {
+    background-color: #dc3545; /* Vermelho */
+    color: #ffffff;
+    margin-top: 10px;
+    padding: 10px 20px; /* Adiciona padding para o botão */
+    border: none;
+    border-radius: 4px; /* Adiciona bordas arredondadas */
+    cursor: pointer; /* Adiciona ponteiro ao hover */
+}
+
+.btn-clear:hover {
+    background-color: #c82333;
+}
+
+/* Container Geral */
+.box {
+    max-width: 1280px;
+    margin: auto;
+    background-color: #2d7ee7b7;
+    padding: 20px; /* Adiciona padding ao container */
+    border-radius: 8px; /* Adiciona bordas arredondadas */
+}
+
+.flexx {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Estilos do Rodapé */
+#footer_content{
+    background-color: #07699669;
+    display: grid;
+    grid-template-columns: repeat(4 , 1fr);
+    padding: 3rem 3.5rem;
+    margin-top: 0;
+}
+
+#footer_contacts {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-box {
+    background-color: #2d7ee7b7; /* Cor de fundo da caixa do meio */
+    border-radius: 8px; /* Bordas arredondadas */
+    padding: 20px; /* Espaçamento interno */
+    max-width: 800px; /* Largura máxima da caixa do meio */
+    width: 100%; /* Permite que a caixa ocupe toda a largura até o máximo */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Sombra para destaque */
+}
+
+/* Estilos da Lista de Itens Salvos */
+.footer-list{
+    display: flex;
+    flex-direction: column;
+    gap: 0.40rem;
+    list-style: none;
+}
+
+.footer-list .footer-link{
+    color: #000000;
+    transition: all 0.4s;
+}
+.footer-list .footer-link:hover{
+    color: #ffffff;
+}
+
+/* Redes Sociais */
+#footer_social_media{
+    display: flex;
+    gap:2rem;
+    margin-top: 0.5rem;
+}
+
+#footer_social_media .footer-link{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5rem;
+    width: 2.5rem;
+    color: #ffffff;
+    border-radius: 50%;
+    transition: all 0.4s;
+}
+
+#footer_social_media .footer-link i{
+    font-size: 1.25rem;
+}
+
+#footer_social_media .footer-link:hover{
+    opacity: 0.8;
+}
+
+#footer_subscribe{
+    display: flex;
+    flex-direction: column;
+    grid-area: 1.5rem;
+}
+
+#footer_subscribe p{
+    color: #ffffff;
+}
+
+#footer_copyright{ 
+    display: flex;
+    justify-content: center;
+    background-color: #1384cf;
+    font-size:0.9rem;
+    padding: 1.5rem;
+    font-weight: 100;
+}
+
+@media screen and (max-width: 768px) {
+    #footer_content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+
+@media screen and (max-width: 426px) {
+    #footer_content {
+        grid-template-columns: repeat(1, 1fr);
+        padding: 3rem 2rem;
+    }
+}
