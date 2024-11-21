@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Área</title>
+    <title>Calculadora de Área (m²) e Mantas</title>
     <style>
     body {
         font-family: 'Helvetica Neue', sans-serif;
@@ -61,6 +61,7 @@
         background-color: #ff9500;
         color: white;
         padding: 15px;
+        margin-bottom: 20px;
         font-size: 22px;
         font-weight: bold;
         border: none;
@@ -82,6 +83,7 @@
         font-size: 24px;
         font-weight: bold;
         color: #fff;
+        white-space: pre-line;
     }
 
     @media (max-width: 768px) {
@@ -127,7 +129,7 @@
             font-size: 18px;
         }
     }
-    </style>
+</style>
     <script>
         function calcularArea() {
             // Obter valores dos campos de entrada
@@ -148,38 +150,65 @@
             const caixas = mantasNecessarias * 16
 
             // Exibir o resultado na página
-            document.getElementById('area').value=area.toFixed(2)
-            document.getElementById('mantas').value=mantasNecessarias
-            document.getElementById('caixas').value=caixas
+            document.getElementById("resultado").textContent = 
+                `Área total: ${area.toFixed(2)} m²\n`+
+                `Mantas necessárias: ${mantasNecessarias}\n`+
+                `Caixas necessárias: ${caixas}`
+                ;
+        }
+
+        function salvarDados() {
+            const largura = parseFloat(document.getElementById('largura').value); 
+            const comprimento = parseFloat(document.getElementById('comprimento').value); 
+            const area = largura * comprimento; 
+            const mantas = Math.ceil(area) 
+            const caixas = mantas * 16
+            const local = document.getElementById('local').value; 
+            
+            if (local == ''){
+                alert('preencha o nome do local')
+                return
+            }
+
+            const data = { largura, comprimento, area, mantas, caixas, local }; 
+            
+
+            fetch('/salvar-medida', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data) 
+            })
+            .then(response => { 
+                if (response.ok) { 
+                    alert('Dados salvos com sucesso!'); 
+                } else { 
+                    alert('Erro ao salvar dados.'); 
+                } 
+            }) 
+            .catch(error => { console.error('Erro ao enviar dados:', error); 
+            });
         }
     </script>
 </head>
 <body>
     <div class="container">
-        <h1>Calculadora de Área e Mantas</h1>
-
-        <form action="/salvar-medida" method="post" autocomplete="off">
+        <h1>Calculadora de Área e Mantas (m²)</h1>
+        
+        <form autocomplete="off">
             <label for="largura">Largura (em metros): </label>
-            <input type="number" id="largura" name="largura" step="0.01" required>
+            <input type="number" id="largura" step="0.01" required>
             
             <label for="comprimento">Comprimento (em metros): </label>
-            <input type="number" id="comprimento" name="comprimento" step="0.01" required>
+            <input type="number" id="comprimento" step="0.01" required>
 
             <button type="button" onclick="calcularArea()">Calcular</button>
-
-            <label for="area">area total (m2): </label>
-            <input type="number" id="area" name="area" step="0.01" required>
-
-            <label for="mantas">Mantas necessárias: </label>
-            <input type="number" id="mantas" name="mantas" step="0.01" required>
-
-            <label for="caixas">Caixas necessárias: </label>
-            <input type="number" id="caixas" name="caixas" step="0.01" required>
+            
+            <p id="resultado"></p>
 
             <label for="local"> Nome do local: </label>
             <input type="text" id="local" name="local" step="0.01" required>
 
-            <button type="submit">Salvar</button>
+            <button type="button" onclick="salvarDados()">Salvar</button>
         </form>
     </div>
 </body>

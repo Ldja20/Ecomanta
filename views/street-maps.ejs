@@ -43,6 +43,12 @@
             color: #ffffff;
             font-weight: bolder;
         }
+        a {
+            color: white;
+        }
+        a:hover{
+            color: red;
+        }
         .img-esquerda {
             width: 190px;
             height: auto;
@@ -50,17 +56,31 @@
         .leaflet-control-layers {
             z-index: 1000; /* Garante que os controles de camadas estejam acima dos outros elementos */
         }
+        input[type="number"], input[type="text"] {
+        width: 60%;
+        padding: 5px;
+        margin-bottom: 5px;
+        border: none;
+        border-radius: 10px;
+        background-color: #505050;
+        color: white;
+        font-size: 18px;
+        outline: none;
+        box-sizing: border-box;
+    }
     </style>
 </head>
 <body>
     <h1>Medir Telhado</h1>
-    <p>para usar a calculadora tradicional <a href="/calculadora">clique aqui</a></p>
+    <p style="text-align: center;">para usar a calculadora tradicional <a href="/calculadora">clique aqui</a></p>
     <div id="map"></div>
     <div id="buttons">
         <button type="button" class="btn btn-info" onclick="marcarLargura()">Marcar Largura</button>
         <button type="button" class="btn btn-info" onclick="marcarComprimento()">Marcar Comprimento</button>
         <button type="button" class="btn btn-warning" onclick="calcularArea()">Calcular Área</button>
+        <button type="button" class="btn btn-warning" onclick="salvarDados()">Salvar</button>
         <button type="button" class="btn btn-danger" onclick="limparTudo()">Limpar</button>
+        
     </div>
     <div class="container">
         <div class="row justify-content-center">
@@ -76,6 +96,8 @@
                     <p>Área: <span id="area"></span> metros quadrados</p>
                     <p>Mantas necessárias: <span id="mantas"></span></p>
                     <p>Caixas de leite necessárias: <span id="caixas"></span></p>
+                    <label for="local"> <p>Nome do local: </p></label>
+                    <input type="text" id="local" name="local" step="0.01" required>
                 </div>
             </div>
             <!-- Figura da caixa de leite direita -->
@@ -182,6 +204,39 @@
             } else {
                 alert("Por favor, marque a largura e o comprimento primeiro.");
             }
+        }
+
+        function salvarDados() {
+            const largura = parseFloat(document.getElementById('largura').innerText); 
+            const comprimento = parseFloat(document.getElementById('comprimento').innerText); 
+            const area = parseFloat(document.getElementById('area').innerText); 
+            const mantas = parseInt(document.getElementById('mantas').innerText, 10); 
+            const caixas = parseInt(document.getElementById('caixas').innerText, 10);
+            const local = document.getElementById('local').value; 
+            
+            if (local == ''){
+                alert('preencha o nome do local')
+                return
+            }
+
+            const data = { largura, comprimento, area, mantas, caixas, local }; 
+            console.log(data)
+            
+
+            fetch('/salvar-medida', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data) 
+            })
+            .then(response => { 
+                if (response.ok) { 
+                    alert('Dados salvos com sucesso!'); 
+                } else { 
+                    alert('Erro ao salvar dados.'); 
+                } 
+            }) 
+            .catch(error => { console.error('Erro ao enviar dados:', error); 
+            });
         }
 
         function limparLinhas() {

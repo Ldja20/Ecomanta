@@ -85,7 +85,7 @@ app.get('/maps',(request, response) => {
     response.render('maps');
 })
 //rota mapa(street maps)
-app.get('/street-maps',(request, response) => {
+app.get('/street-maps', checkAuthenticated, (request, response) => {
     response.render('street-maps');
 })
 app.get('/calculadora',(request, response) => {
